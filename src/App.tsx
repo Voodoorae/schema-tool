@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { X, CheckCircle, ArrowRight } from 'lucide-react';
+import SchemaGenerator from './SchemaGenerator';
 
 function App() {
   const [showPopup, setShowPopup] = useState(false);
+  const params = new URLSearchParams(window.location.search);
+  const isClient = params.get('status') === 'client';
 
   const shouldShowPopup = () => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('status') === 'client') {
+    if (isClient) {
       return false;
     }
 
@@ -29,19 +31,21 @@ function App() {
     }
 
     let timeoutId: ReturnType<typeof setTimeout> | null = null;
-    let isMouseLeft = false;
+
+    const showPopupAndCleanup = () => {
+      setShowPopup(true);
+      if (timeoutId) clearTimeout(timeoutId);
+    };
 
     const handleMouseLeave = (e: MouseEvent) => {
       if ((e as any).clientY <= 0) {
-        isMouseLeft = true;
-        setShowPopup(true);
-        if (timeoutId) clearTimeout(timeoutId);
+        showPopupAndCleanup();
       }
     };
 
     timeoutId = setTimeout(() => {
-      if (!isMouseLeft && shouldShowPopup()) {
-        setShowPopup(true);
+      if (shouldShowPopup()) {
+        showPopupAndCleanup();
       }
     }, 60000);
 
@@ -95,28 +99,19 @@ function App() {
         </div>
       )}
 
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <header className="text-center mb-12">
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <header className="text-center mb-8">
           <h1 className="text-5xl font-bold text-gray-900 mb-4">
             Local Schema Generator Tool
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             I'm Found By AI, your AIO expert. This free local schema generator tool helps you check and improve your local business schema markup right now.
           </p>
-          <a
-            href="https://go.becomefoundbyai.com/get-toolkit"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl"
-          >
-            Get Expert Help with Your Schema
-            <ArrowRight className="ml-2" size={20} />
-          </a>
         </header>
 
-        <section className="mb-12">
+        <section className="mb-8">
           <div className="bg-white rounded-xl p-8 shadow-sm">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">
               What Is a Local Schema Generator?
             </h2>
             <p className="text-lg text-gray-700 leading-relaxed">
@@ -125,75 +120,63 @@ function App() {
           </div>
         </section>
 
-        <section className="mb-12">
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-2 shadow-xl">
-            <div className="bg-white rounded-xl overflow-hidden">
-              <iframe
-                src="https://foundbyai-audit.streamlit.app/?embed=true"
-                width="100%"
-                height="850px"
-                style={{ border: 'none' }}
-                title="Local Schema Generator Tool"
-              />
-            </div>
-          </div>
-        </section>
+        <SchemaGenerator />
 
-        <section className="mb-12">
+        <section className="mb-8">
           <div className="bg-white rounded-xl p-8 shadow-sm">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
               How to Use the Local Schema Generator Tool
             </h2>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div>
-                <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-                  Step 1: Enter Your Website in the Local Schema Generator
+                <h3 className="text-2xl font-semibold text-gray-900 mb-2">
+                  Step 1: Enter Your Business Details in the Local Schema Generator
                 </h3>
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  Type your website address in the box above. The local schema generator tool will look at your website and check your schema markup. This takes just a few seconds.
+                  Fill in the form above with your business name, address, type, phone number, and website. The local schema generator needs this information to create the right code for your business.
                 </p>
               </div>
 
               <div>
-                <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-                  Step 2: Review Your Local Schema Generator Results
+                <h3 className="text-2xl font-semibold text-gray-900 mb-2">
+                  Step 2: Generate Code with the Local Schema Generator
                 </h3>
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  The local schema generator will show you a score. This score tells you how good your local business schema is. A high score means Google can understand your business better. A low score means you need to fix some things.
+                  Click the blue button to generate your custom JSON-LD schema. The local schema generator will create special code that tells Google all about your business.
                 </p>
               </div>
 
               <div>
-                <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-                  Step 3: Fix Issues Found by the Local Schema Generator
+                <h3 className="text-2xl font-semibold text-gray-900 mb-2">
+                  Step 3: Copy & Paste with the Local Schema Generator
                 </h3>
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  Look at what the local schema generator tells you to fix. It will show you what is missing or wrong. You can fix these things yourself or get help from our team. We make it easy to improve your local schema.
+                  Use the copy button to grab the code from the local schema generator. This puts it on your computer ready to use.
                 </p>
               </div>
 
               <div>
-                <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-                  Step 4: Use the Local Schema Generator Again
+                <h3 className="text-2xl font-semibold text-gray-900 mb-2">
+                  Step 4: Add to Your Website from the Local Schema Generator
                 </h3>
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  After you fix the problems, come back and use the local schema generator tool again. Check if your score got better. Keep using this tool until you get a great score.
+                  Paste this code into the header of your website. The local schema generator code helps Google understand your business better, so more customers can find you.
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="mb-12">
+        <section className="mb-8">
           <div className="bg-white rounded-xl p-8 shadow-sm">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Why Use Our Local Schema Generator Tool?
             </h2>
 
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-4">
               <div className="bg-blue-50 rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   Free Local Schema Generator
                 </h3>
                 <p className="text-gray-700 leading-relaxed">
@@ -202,7 +185,7 @@ function App() {
               </div>
 
               <div className="bg-blue-50 rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   Easy to Use Local Schema Generator
                 </h3>
                 <p className="text-gray-700 leading-relaxed">
@@ -211,7 +194,7 @@ function App() {
               </div>
 
               <div className="bg-blue-50 rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   Accurate Local Schema Generator
                 </h3>
                 <p className="text-gray-700 leading-relaxed">
@@ -220,7 +203,7 @@ function App() {
               </div>
 
               <div className="bg-blue-50 rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   Get Help with Your Local Schema Generator Results
                 </h3>
                 <p className="text-gray-700 leading-relaxed">
@@ -231,15 +214,15 @@ function App() {
           </div>
         </section>
 
-        <section className="mb-12">
+        <section className="mb-8">
           <div className="bg-white rounded-xl p-8 shadow-sm">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Frequently Asked Questions About the Local Schema Generator
             </h2>
 
-            <div className="space-y-6">
-              <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+            <div className="space-y-4">
+              <div className="border-b border-gray-200 pb-4">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   What is a local schema generator?
                 </h3>
                 <p className="text-gray-700 leading-relaxed">
@@ -247,8 +230,8 @@ function App() {
                 </p>
               </div>
 
-              <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              <div className="border-b border-gray-200 pb-4">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   Is the local schema generator tool free?
                 </h3>
                 <p className="text-gray-700 leading-relaxed">
@@ -256,8 +239,8 @@ function App() {
                 </p>
               </div>
 
-              <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              <div className="border-b border-gray-200 pb-4">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   How does the local schema generator help my business?
                 </h3>
                 <p className="text-gray-700 leading-relaxed">
@@ -265,8 +248,8 @@ function App() {
                 </p>
               </div>
 
-              <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              <div className="border-b border-gray-200 pb-4">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   What if my local schema generator score is low?
                 </h3>
                 <p className="text-gray-700 leading-relaxed">
@@ -274,8 +257,8 @@ function App() {
                 </p>
               </div>
 
-              <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              <div className="border-b border-gray-200 pb-4">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   How often should I use the local schema generator?
                 </h3>
                 <p className="text-gray-700 leading-relaxed">
@@ -283,8 +266,8 @@ function App() {
                 </p>
               </div>
 
-              <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              <div className="border-b border-gray-200 pb-4">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   Can you help me fix what the local schema generator finds?
                 </h3>
                 <p className="text-gray-700 leading-relaxed">
@@ -292,8 +275,8 @@ function App() {
                 </p>
               </div>
 
-              <div className="pb-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              <div className="pb-4">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   Will the local schema generator work for any business?
                 </h3>
                 <p className="text-gray-700 leading-relaxed">
@@ -304,29 +287,51 @@ function App() {
           </div>
         </section>
 
-        <section className="mb-12">
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-12 text-center shadow-xl">
-            <h2 className="text-4xl font-bold text-white mb-4">
-              Need Help Improving Your Local Schema?
-            </h2>
-            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-              I'm here to help you get a perfect score on the local schema generator. Let me fix your schema or teach you how to do it yourself.
-            </p>
-            <a
-              href="https://go.becomefoundbyai.com/get-toolkit"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center bg-white text-blue-600 px-10 py-5 rounded-lg font-bold hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl text-lg"
-            >
-              Get Your Free Toolkit Now
-              <ArrowRight className="ml-2" size={24} />
-            </a>
+        <section className="mb-8">
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-10 text-center shadow-xl">
+            {isClient ? (
+              <>
+                <h2 className="text-4xl font-bold text-white mb-3">
+                  Need an Expert Review?
+                </h2>
+                <p className="text-xl text-blue-100 mb-6 max-w-2xl mx-auto">
+                  You have the toolkit, but want an expert to double-check your work? Let us tune up your schema.
+                </p>
+                <a
+                  href="https://go.becomefoundbyai.com/tune-up-upgrade"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center bg-white text-blue-600 px-10 py-4 rounded-lg font-bold hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl text-lg"
+                >
+                  Get a Schema Tune-Up
+                  <ArrowRight className="ml-2" size={24} />
+                </a>
+              </>
+            ) : (
+              <>
+                <h2 className="text-4xl font-bold text-white mb-3">
+                  Need Help Improving Your Local Schema?
+                </h2>
+                <p className="text-xl text-blue-100 mb-6 max-w-2xl mx-auto">
+                  I'm here to help you get a perfect score on the local schema generator. Get expert help fixing your schema or do it yourself with our complete toolkit.
+                </p>
+                <a
+                  href="https://go.becomefoundbyai.com/get-toolkit"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center bg-white text-blue-600 px-10 py-4 rounded-lg font-bold hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl text-lg"
+                >
+                  Get Your Toolkit Now
+                  <ArrowRight className="ml-2" size={24} />
+                </a>
+              </>
+            )}
           </div>
         </section>
 
-        <footer className="text-center py-8 text-gray-600">
+        <footer className="text-center py-6 text-gray-600">
           <p className="text-lg">
-            © 2024 Found By AI - Your AIO Expert for Local Schema and More
+            © {new Date().getFullYear()} Found By AI - Your AIO Expert for Local Schema and More
           </p>
         </footer>
       </div>
