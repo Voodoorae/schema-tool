@@ -83,15 +83,15 @@ function App() {
                 Don't Be Alarmed!
               </h3>
               <p className="text-gray-600 mb-6 text-lg leading-relaxed">
-                We can help you fix your local schema score. Get expert help or do it yourself with our toolkit.
+                You have generated your schema, but is your overall SEO working? Run a free AI audit to see your visibility score in 60 seconds.
               </p>
               <a
-                href="https://go.becomefoundbyai.com/get-toolkit"
+                href="https://foundbyai-audit.streamlit.app/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center w-full bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl"
               >
-                Get Your Toolkit Now
+                Run Free Audit Now
                 <ArrowRight className="ml-2" size={20} />
               </a>
             </div>
@@ -310,18 +310,18 @@ function App() {
             ) : (
               <>
                 <h2 className="text-4xl font-bold text-white mb-3">
-                  Need Help Improving Your Local Schema?
+                  Does Google Actually See Your Business?
                 </h2>
                 <p className="text-xl text-blue-100 mb-6 max-w-2xl mx-auto">
-                  I'm here to help you get a perfect score on the local schema generator. Get expert help fixing your schema or do it yourself with our complete toolkit.
+                  You have generated your schema, but is your overall SEO working? Run a free AI audit to see your visibility score in 60 seconds.
                 </p>
                 <a
-                  href="https://go.becomefoundbyai.com/get-toolkit"
+                  href="https://foundbyai-audit.streamlit.app/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center bg-white text-blue-600 px-10 py-4 rounded-lg font-bold hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl text-lg"
                 >
-                  Get Your Toolkit Now
+                  Run Free Audit Now
                   <ArrowRight className="ml-2" size={24} />
                 </a>
               </>
